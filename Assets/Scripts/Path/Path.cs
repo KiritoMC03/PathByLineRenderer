@@ -1,49 +1,74 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.Path
 {
-    [RequireComponent(typeof(LineRenderer))]
-    public class Path : MonoBehaviour
+    [Serializable]
+    public class Path
     {
-        [SerializeField, Range(0, 100)]
-        private int segments = 50;
-        [SerializeField, Range(0, 5)]
-        private float xRadius = 5;
-        [SerializeField, Range(0, 5)]
-        private float yRadius = 5;
-        private LineRenderer _lineRenderer;
+        [HideInInspector]
+        [SerializeField] private List<Vector2> points;
 
-        private void Awake()
+        public Vector2 this[int i] => points[i];
+        public int NumPoints => points.Count;
+        public int NumSegments => (points.Count - 4) / 3 + 1;
+
+        public Path(Vector2 centre)
         {
-            InitFields();
-
-            _lineRenderer.positionCount = segments + 1;
-            _lineRenderer.useWorldSpace = false;
-            CreatePoints();
+            points = new List<Vector2>()
+            {
+                centre + Vector2.left,
+                centre + (Vector2.left + Vector2.up) * 0.5f,
+                centre + (Vector2.right + Vector2.down) * 0.5f,
+                centre + Vector2.right
+            };
+        }
+        
+        public void AddSegment(Vector2 anchorPosition)
+        {
+            points.Add(points[points.Count - 1] * 2 - points[points.Count - 2]);
+            points.Add((points[points.Count - 1] + anchorPosition) * 0.5f);
+            points.Add(anchorPosition);
         }
 
-        private void InitFields()
+        public Vector2[] GetPointsInSegment(int i)
         {
-            _lineRenderer = GetComponent<LineRenderer>();
-            if (_lineRenderer is null)
+            return new Vector2[]
             {
-                throw new Exception("Line Renderer is null!");
+                points[i * 3], points[i * 3 + 1], points[i * 3 + 2], points[i * 3 + 3]
+            };
+        }
+
+        public void MovePoint(int i, Vector2 position)
+        {
+            Vector2 deltaMove = position - points[i];
+            points[i] = position;
+
+            if (i % 3 == 0)
+            {
+                if (i + 1 < points.Count)
+                {
+                    points[i + 1] += deltaMove;
+                }
+
+                if (i - 1 >= 0)
+                {
+                    points[i - 1] += deltaMove;
+                }
             }
-        }
-
-        private void CreatePoints()
-        {
-            var angle = 20f;
-
-            for (var i = 0; i < (segments + 1); i++)
+            else
             {
-                var x = Mathf.Sin(Mathf.Deg2Rad * angle) * xRadius;
-                var  y = Mathf.Cos(Mathf.Deg2Rad * angle) * yRadius;
+                bool nextPointIsAnchor = (i + 1) % 3 == 0;
+                int correspondingControlIndex = (nextPointIsAnchor) ? i + 2 : i - 2;
+                int anchorIndex = (nextPointIsAnchor) ? i + 1 : i - 1;
 
-                _lineRenderer.SetPosition(i, new Vector3(x, 0f, y));
-
-                angle += (360f / segments);
+                if (correspondingControlIndex >= 0 && correspondingControlIndex < points.Count)
+                {
+                    float distance = (points[anchorIndex] - points[correspondingControlIndex]).magnitude;
+                    Vector2 dir = (points[anchorIndex] - position).normalized;
+                    points[correspondingControlIndex] = points[anchorIndex] + dir * distance;
+                }
             }
         }
     }
