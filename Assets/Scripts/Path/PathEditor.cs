@@ -10,6 +10,24 @@ namespace Scripts.Path
         private PathCreator _creator;
         private Path _path;
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (GUILayout.Button("Create new"))
+            {
+                _creator.CreatePath();
+                _path = _creator.path;
+                SceneView.RepaintAll();
+            }
+            
+            if (GUILayout.Button("Toggle closed"))
+            {
+                _path.ToggleClosed();
+                SceneView.RepaintAll();
+            }
+        }
+
         private void OnSceneGUI()
         {
             Input();
@@ -27,6 +45,29 @@ namespace Scripts.Path
             {
                 Undo.RecordObject(_creator, "Add segment");
                 _path.AddSegment(mousePosition);
+            }
+
+            if (guiEvent.type == EventType.MouseDown && guiEvent.button == 1)
+            {
+                var minDistanceToAnchor = 0.05f;
+                var closestAnchorIndex = -1;
+
+                for (int i = 0; i < _path.NumPoints; i+=3)
+                {
+                    var distance = Vector2.Distance(mousePosition, _path[i]);
+
+                    if (distance < minDistanceToAnchor)
+                    {
+                        minDistanceToAnchor = distance;
+                        closestAnchorIndex = i;
+                    }
+
+                    if (closestAnchorIndex != -1)
+                    {
+                        Undo.RecordObject(_creator, "Delete segment");
+                        _path.DeleteSemgent(closestAnchorIndex);
+                    }
+                }
             }
         }
         

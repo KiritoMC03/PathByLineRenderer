@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -561,37 +561,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path:
     points:
-    - {x: 13.081629, y: 1.1789174}
-    - {x: 13.603586, y: 1.5314837}
-    - {x: 14.780159, y: 0.705664}
-    - {x: 15.241222, y: 1.0459229}
-    - {x: 16.251158, y: 1.7912428}
-    - {x: 16.794437, y: 0.8684485}
-    - {x: 16.557484, y: 0.41556895}
-    - {x: 16.32053, y: -0.0373106}
-    - {x: 15.61691, y: -0.030332446}
-    - {x: 14.993086, y: -0.023354292}
-    - {x: 14.369262, y: -0.016376138}
-    - {x: 13.852174, y: 0.08653051}
-    - {x: 13.335086, y: 0.18943715}
-    - {x: 12.817998, y: 0.2923438}
-    - {x: 12.801686, y: 0.5068798}
-    - {x: 12.785375, y: 0.7214158}
-    - {x: 12.769063, y: 0.9359518}
-    - {x: 12.422566, y: 0.7355876}
-    - {x: 12.07607, y: 0.5352233}
-    - {x: 11.729573, y: 0.334859}
-    - {x: 11.756527, y: 0.87835664}
-    - {x: 11.783482, y: 1.4218543}
-    - {x: 11.810436, y: 1.9653518}
-    - {x: 11.934387, y: 1.9640255}
-    - {x: 12.058337, y: 1.9626992}
-    - {x: 12.182287, y: 1.9613729}
-    - {x: 12.936012, y: 2.161528}
-    - {x: 13.689738, y: 2.3616834}
-    - {x: 14.443464, y: 2.5618386}
-    - {x: 13.738548, y: 1.8677181}
-    - {x: 12.749909, y: 1.3775227}
+    - {x: -1, y: 0}
+    - {x: -0.5, y: 0.5}
+    - {x: 1.0552742, y: 0.20166016}
+    - {x: 1.5552742, y: 0.70166016}
+    isClosed: 0
 --- !u!4 &1334076414
 Transform:
   m_ObjectHideFlags: 0
@@ -600,7 +574,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1334076412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.951, y: 0.991, z: -3.7604623}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
